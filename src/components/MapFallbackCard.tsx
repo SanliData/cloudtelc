@@ -33,7 +33,7 @@ export function MapFallbackCard({
       <div className="relative w-full h-full min-h-[240px]">
         <Image
           src={img}
-          alt=""
+          alt={sourceLabel}
           fill
           className="object-cover transition-transform group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, 800px"

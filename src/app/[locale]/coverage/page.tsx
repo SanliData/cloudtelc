@@ -4,15 +4,18 @@ import { Button } from "@/components/ui/Button";
 import { CoverageMap } from "@/components/CoverageMap";
 import { coverage } from "@/data/coverage";
 import { setRequestLocale } from "next-intl/server";
+import { buildMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  return {
+  const { locale } = await params;
+  return buildMetadata({
     title: "Coverage",
     description:
       "Cloud Telecommunications service areas. Crews available for deployments.",
-  };
+    path: `/${locale}/coverage`,
+  });
 }
 
 export default async function CoveragePage({ params }: Props) {

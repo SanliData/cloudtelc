@@ -3,6 +3,7 @@ import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { setRequestLocale } from "next-intl/server";
+import { buildMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -36,11 +37,12 @@ const sections = [
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  return {
+  return buildMetadata({
     title: "Safety & Quality",
     description:
       "OSHA compliance, 811 coordination, ROW, TCP, QC checkpoints. Cloud Telecommunications safety and quality standards.",
-  };
+    path: `/${locale}/safety-quality`,
+  });
 }
 
 export default async function SafetyQualityPage({ params }: Props) {

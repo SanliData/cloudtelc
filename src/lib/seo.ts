@@ -16,6 +16,8 @@ export interface BuildMetadataInput {
  * Tüm sayfalar için tek kaynak meta veri.
  * Başlık, description, openGraph buradan üretilir.
  */
+const baseUrl = "https://www.cloudtelc.com";
+
 export function buildMetadata({
   title,
   description = defaultDescription,
@@ -23,12 +25,13 @@ export function buildMetadata({
   noIndex = false,
 }: BuildMetadataInput): Metadata {
   const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
-  const url = path ? `https://www.cloudtelc.com${path}` : "https://www.cloudtelc.com";
+  const url = path ? `${baseUrl}${path}` : baseUrl;
 
   return {
     title: fullTitle,
     description,
     ...(noIndex && { robots: { index: false, follow: false } }),
+    alternates: path ? { canonical: url } : undefined,
     openGraph: {
       title: fullTitle,
       description,

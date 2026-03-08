@@ -3,19 +3,19 @@ import { setRequestLocale } from "next-intl/server";
 import { Section } from "@/components/ui/Section";
 import { GlossaryClient } from "@/components/GlossaryClient";
 import { allGlossaryTerms } from "@/data/glossary";
+import { buildMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
 
-export const metadata: Metadata = {
-  title: "Fiber Infrastructure Glossary",
-  description:
-    "Industry terminology and technical reference for U.S. fiber infrastructure construction: backbone, underground, aerial, FTTH, splicing, testing, and compliance standards.",
-  openGraph: {
-    title: "Fiber Infrastructure Glossary | Cloud Telecommunications",
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return buildMetadata({
+    title: "Fiber Infrastructure Glossary",
     description:
-      "Technical glossary for fiber infrastructure: OSP, HDD, FTTH, OTDR, 811, ROW, and more.",
-  },
-};
+      "Industry terminology and technical reference for U.S. fiber infrastructure construction: backbone, underground, aerial, FTTH, splicing, testing, and compliance standards.",
+    path: `/${locale}/glossary`,
+  });
+}
 
 function GlossarySchema() {
   const schema = {

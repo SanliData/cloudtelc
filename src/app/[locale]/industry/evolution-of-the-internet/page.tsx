@@ -4,14 +4,19 @@ import { Link } from "@/i18n/navigation";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { buildMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
 
-export const metadata: Metadata = {
-  title: "The Evolution of the Internet | Cloud Telecommunications",
-  description:
-    "Explore the history of the internet from ARPANET to modern fiber infrastructure and nationwide broadband expansion.",
-};
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return buildMetadata({
+    title: "The Evolution of the Internet",
+    description:
+      "Explore the history of the internet from ARPANET to modern fiber infrastructure and nationwide broadband expansion.",
+    path: `/${locale}/industry/evolution-of-the-internet`,
+  });
+}
 
 const timeline = [
   {

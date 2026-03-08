@@ -1,0 +1,59 @@
+---
+description: SEO metadata standardı — locale sayfalarında generateMetadata ve buildMetadata kullan
+globs: src/app/[locale]/**/page.tsx
+alwaysApply: false
+---
+
+# SEO Metadata (buildMetadata uyumu)
+
+## Kural
+
+Bu projede **locale altındaki tüm sayfalar** meta veri için statik `export const metadata` **kullanmaz**. Bunun yerine:
+
+1. **generateMetadata** (async) kullan.
+2. **buildMetadata** helper'ını kullan (`@/lib/seo`).
+3. **path** parametresini her zaman **locale ile** ver: `` `/${locale}/sayfa-slug` ``.
+
+## buildMetadata imzası (src/lib/seo.ts)
+
+```ts
+buildMetadata({
+  title: string;           // zorunlu
+  description?: string;   // opsiyonel
+  path?: string;          // opsiyonel; canonical + OG url için — mutlaka /${locale}/... formatında ver
+  noIndex?: boolean;      // opsiyonel
+})
+```
+
+## Sayfa şablonu
+
+```ts
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
+
+type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return buildMetadata({
+    title: "Sayfa Başlığı",
+    description: "Meta açıklama.",
+    path: `/${locale}/sayfa-slug`,
+  });
+}
+
+export default async function PageName({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  // ...
+}
+```
+
+## Yasak
+
+- `export const metadata = { ... }` kullanma (locale sayfalarında).
+- path vermeden sadece title/description ile buildMetadata çağırma (canonical ve OG url eksik kalır).
+
+## Referans
+
+Detaylı talimat ve Cursor Composer promptu: `docs/CURSOR-SEO-INSTRUCTIONS.md`

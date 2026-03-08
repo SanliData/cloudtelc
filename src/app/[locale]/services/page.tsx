@@ -9,12 +9,15 @@ import { buildMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
 
-export const metadata: Metadata = buildMetadata({
-  title: "Services",
-  description:
-    "Fiber infrastructure services: backbone, data center, FTTH/FTTP, aerial, underground, splicing & testing, restoration & closeout.",
-  path: "/services",
-});
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return buildMetadata({
+    title: "Services",
+    description:
+      "Fiber infrastructure services: backbone, data center, FTTH/FTTP, aerial, underground, splicing & testing, restoration & closeout.",
+    path: `/${locale}/services`,
+  });
+}
 
 export default async function ServicesPage({ params }: Props) {
   const { locale } = await params;

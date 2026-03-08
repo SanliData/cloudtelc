@@ -5,19 +5,19 @@ import { Section } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { internationalCooperation } from "@/data/internationalCooperation";
+import { buildMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
 
-export const metadata: Metadata = {
-  title: "International Cooperation",
-  description:
-    "Strategic technical collaboration and industry alignment. Cloud Telecommunications collaborates with experienced international telecom infrastructure organizations for knowledge exchange and best-practice development.",
-  openGraph: {
-    title: "International Cooperation | Cloud Telecommunications",
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return buildMetadata({
+    title: "International Cooperation",
     description:
-      "Strategic technical collaboration and international partner relationships in fiber infrastructure.",
-  },
-};
+      "Strategic technical collaboration and industry alignment. Cloud Telecommunications collaborates with experienced international telecom infrastructure organizations for knowledge exchange and best-practice development.",
+    path: `/${locale}/international-cooperation`,
+  });
+}
 
 export default async function InternationalCooperationPage({ params }: Props) {
   const { locale } = await params;

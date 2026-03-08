@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { GlobalInternetMap } from "@/components/GlobalInternetMap";
 import { UsInternetMap } from "@/components/UsInternetMap";
+import { buildMetadata } from "@/lib/seo";
 
 const INTERNET_STATS = [
   { label: "Global Internet Users", value: "5+ billion", description: "Approximate global users" },
@@ -16,16 +17,15 @@ const INTERNET_STATS = [
 
 type Props = { params: Promise<{ locale: string }> };
 
-export const metadata: Metadata = {
-  title: "Internet World",
-  description:
-    "Global and U.S. internet infrastructure maps, broadband data, and connectivity statistics. Submarine cables, FCC map, IXPs, and fiber backbone context.",
-  openGraph: {
-    title: "Internet World | Cloud Telecommunications",
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return buildMetadata({
+    title: "Internet World",
     description:
-      "Global and U.S. internet infrastructure maps, broadband data, and connectivity statistics.",
-  },
-};
+      "Global and U.S. internet infrastructure maps, broadband data, and connectivity statistics. Submarine cables, FCC map, IXPs, and fiber backbone context.",
+    path: `/${locale}/internet-world`,
+  });
+}
 
 export default async function InternetWorldPage({ params }: Props) {
   const { locale } = await params;

@@ -4,14 +4,19 @@ import { Link } from "@/i18n/navigation";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { buildMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
 
-export const metadata: Metadata = {
-  title: "Internet Technologies | Cloud Telecommunications",
-  description:
-    "Explore the core internet technologies powering backbone networks, FTTH deployments, data center interconnects, and modern fiber infrastructure.",
-};
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return buildMetadata({
+    title: "Internet Technologies",
+    description:
+      "Explore the core internet technologies powering backbone networks, FTTH deployments, data center interconnects, and modern fiber infrastructure.",
+    path: `/${locale}/industry/internet-technologies`,
+  });
+}
 
 const technologySections = [
   {
